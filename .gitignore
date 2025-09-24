@@ -1,0 +1,5 @@
+# Ignore everything in bin directory
+/bin/*
+
+# But keep the directory itself
+!/bin/.gitkeep
