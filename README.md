@@ -53,8 +53,6 @@ This project was created by:
     - [Installation](#installation)
         - [Download or Clone the Project](#download-or-clone-the-project)
         - [Step 1: Compile the Code](#step-1-compile-the-code)
-    - [Config](#config)
-        - [.gitignore](#gitignore)
     - [Step 2: Run the Program](#step-2-run-the-program)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
@@ -69,7 +67,7 @@ To get your copy of the simulation running locally, follow these simple steps.
 ### Requirements
 - **C++ Compiler**: `g++` (or equivalent)
 - **Git**: For cloning the repository.
-- **OS**: Preferably.
+- **OS**: Preferably Linux.
 
 ### Installation
 
@@ -103,16 +101,6 @@ Now, run the compilation command:
 g++ src/main.cpp src/auth.cpp -o bin/os_simulator
 ```
 
-### Config
-
-#### .gitignore
-
-Ensure you have a `.gitignore` file in your root directory to exclude compiled binaries and other unnecessary files from your repository. A minimal `.gitignore` for this project should include:
-
-```gitignore
-# Ignore the binary/executable directory
-bin/
-```
 
 ### Step 2: Run the Program
 
