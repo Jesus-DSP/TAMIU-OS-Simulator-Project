@@ -45,10 +45,7 @@ This project was created by:
 
 <details>
 <summary>Click to expand</summary>
-
-- [Members](#-members)
 - [Table of Contents](#-table-of-contents)
-- [Features](#-features)
 - [Getting Started](#-getting-started)
     - [Requirements](#requirements)
     - [Installation](#installation)
@@ -59,19 +56,9 @@ This project was created by:
     - [Step 2: Run the Program](#step-2-run-the-program)
 - [Development](#-development)
     - [Tech Stack](#tech-stack)
-- [Future Features](#-future-features)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
 </details>
-
-
----
-
-## Features
-- **Simulated Boot Process**: Displays a boot-up message to the user upon program start.
-- **Basic Program Structure**: Organized C++ files (`main.cpp`, `auth.h`, `auth.cpp`).
-- **Simple Authentication**: `authenticateUser()` function prompts for username and password, verifying against hardcoded credentials (`admin` / `password123`).
-
 
 ---
 
@@ -138,16 +125,6 @@ Run this command:
 ```
 
 Your program will then start running in the terminal.
-
----
-
-##Future Features
-
-- Command-line Interface (CLI): A functional shell for user interaction.
-- Process Management: Basic simulation of process creation, scheduling, and termination.
-- Memory Management: Simple memory allocation and deallocation.
-- File System: A basic simulated file system.
-- Error Handling: More comprehensive error handling for user input and system operations.
 
 ---
 
