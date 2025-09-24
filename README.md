@@ -65,11 +65,12 @@ This project was created by:
 To get your copy of the simulation running locally, follow these simple steps.
 
 ### Requirements
+- For Windoes(Visual Studio with Desktop development with C++)  
 - **C++ Compiler**: `g++` (or equivalent)
 - **Git**: For cloning the repository.
 - **OS**: Preferably Linux.
 
-### Installation
+### Installation For Linux
 
 #### Download or Clone the Project
 
@@ -113,6 +114,56 @@ Run this command:
 ```
 
 Your program will then start running in the terminal.
+
+---
+### Installation For Windows 
+## Step 1. **Clone the Repository**
+   - From Visual Studio: **Clone a repository** → paste  
+     ```
+     https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project.git
+     ```
+   - Or using Git:
+     ```bash
+     git clone https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project.git
+     ```
+
+## Step 2. **Add `CMakeLists.txt`**  
+   In the root of the project (same level as `src/`), create a file named **CMakeLists.txt**:
+
+   ```cmake
+   cmake_minimum_required(VERSION 3.15)
+
+   project(OS_Simulator LANGUAGES CXX)
+
+   # Use C++11
+   set(CMAKE_CXX_STANDARD 11)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+   # Place executables in /bin at the repo root
+   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
+   # Build the OS simulator
+   add_executable(os_simulator
+       src/main.cpp
+       src/auth.cpp
+   )
+
+   # Include headers from src/
+   target_include_directories(os_simulator PRIVATE ${CMAKE_SOURCE_DIR}/src)
+  ```
+  ## Step 3. **Select Target**
+    - Target -. os_simulator
+    - configuration -> x64-Debug
+
+  ## Step 4. **Build the Code**
+    -Build using Ctrl+Shift+B 
+
+  ## Step 5. **Run the program**
+    -Ctl + F5
+    or from terminal 
+    ```bash
+    .\bin\os_simulator.exe
+    ```
 
 ---
 
