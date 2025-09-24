@@ -1,17 +1,26 @@
-# OS-Simulator Project
+<div align="center">
+  <a href="https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project">
+    <img src="assets/images/banner.png" alt="OS Simulator Banner" width="100%">
+  </a>
+  <br/>
+  <br/>
+  <h1>OS Simulator Project</h1>
+  <p>A simplified operating system simulator using C++, starting with a basic shell, authentication, and a simulated boot process.</p>
+  <br/>
 
-[Report a Bug](https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project/issues/new?labels=bug&template=bug_report.md&title=%5BBUG%5D%20)
-·
-[Request a Feature](https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project/issues/new?labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D%20)
-·
-[Ask a Question](https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project/discussions/new?category=general)
-
-![version: 1.0.0](https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge)
-[![Minimum C++ Standard: C++11](https://img.shields.io/badge/C%2B%2B-11-blue.svg?style=for-the-badge)](https://en.cppreference.com/w/cpp/compiler_support)
-[![Language: C++](https://img.shields.io/badge/language-C%2B%2B-00599C.svg?style=for-the-badge)](https://isocpp.org/)
-[![Total Commits](https://img.shields.io/github/commits-since/Jesus-DSP/TAMIU-OS-Simulator-Project/v1.0.0?style=for-the-badge)](https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project/commits/main)
-
-A simplified operating system simulator using C++, starting with a basic shell, authentication, and a simulated boot process.
+  [Report a Bug](https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project/issues/new?labels=bug&template=bug_report.md&title=%5BBUG%5D%20)
+  ·
+  [Request a Feature](https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project/issues/new?labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D%20)
+  ·
+  [Ask a Question](https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project/discussions/new?category=general)
+  <br/>
+  <br/>
+  
+  ![version: 1.0.0](https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge)
+  [![Minimum C++ Standard: C++11](https://img.shields.io/badge/C%2B%2B-11-blue.svg?style=for-the-badge)](https://en.cppreference.com/w/cpp/compiler_support)
+  [![Language: C++](https://img.shields.io/badge/language-C%2B%2B-00599C.svg?style=for-the-badge)](https://isocpp.org/)
+  [![Total Commits](https://img.shields.io/github/commits-since/Jesus-DSP/TAMIU-OS-Simulator-Project/v1.0.0?style=for-the-badge)](https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project/commits/main)
+</div>
 
 
 ### 🤔 Why create this basic OS?
