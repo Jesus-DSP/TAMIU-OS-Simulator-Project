@@ -22,7 +22,6 @@
   [![Total Commits](https://img.shields.io/github/commits-since/Jesus-DSP/TAMIU-OS-Simulator-Project/v1.0.0?style=for-the-badge)](https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project/commits/main)
 </div>
 
----
 
 ### Why create this basic OS?
 
@@ -40,6 +39,7 @@ This project was created by:
 - Jorge Rodriguez
 - Rafael Contreras
 
+
 ---
 
 ## Table of Contents
@@ -47,19 +47,17 @@ This project was created by:
 <details>
 <summary>Click to expand</summary>
 
-- [Getting Started](#getting-started)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
-    - [Download or Clone the Project](#download-or-clone-the-project)
-    - [Step 1: Compile the Code](#step-1-compile-the-code)
-  - [Config](#config)
-    - [.gitignore](#gitignore)
-  - [Step 2: Run the Program](#step-2-run-the-program)
-- [Development](#development)
-  - [Tech Stack](#tech-stack)
+- [Table of Contents](#-table-of-contents)
+- [Getting Started](#-getting-started)
+    - [Requirements](#requirements)
+    - [Installation](#installation)
+        - [Download or Clone the Project](#download-or-clone-the-project)
+        - [Step 1: Compile the Code](#step-1-compile-the-code)
+    - [Config](#config)
+        - [.gitignore](#gitignore)
+    - [Step 2: Run the Program](#step-2-run-the-program)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
-
 </details>
 
 ---
@@ -81,61 +79,76 @@ First, clone the repository to your local machine:
 
 ```shell
 git clone https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project.git
+```
+
 Now cd into the project directory:
 
-shell
-Copy code
+```shell
 cd TAMIU-OS-Simulator-Project
-Step 1: Compile the Code
-This step takes your C++ source files from the src directory and uses the g++ compiler to create a single executable program in the bin directory.
+```
 
-First, if the bin directory doesn't exist, create it:
+#### Step 1: Compile the Code
 
-bash
-Copy code
+This step takes your C++ source files from the `src` directory and uses the `g++` compiler to create a single executable program in the `bin` directory.
+
+First, if the `bin` directory doesn't exist, create it:
+
+```bash
 mkdir -p bin
+```
+
 Now, run the compilation command:
 
-bash
-Copy code
+```bash
 g++ src/main.cpp src/auth.cpp -o bin/os_simulator
-Config
-.gitignore
-Ensure you have a .gitignore file in your root directory to exclude compiled binaries and other unnecessary files from your repository. A minimal .gitignore for this project should include:
+```
 
-gitignore
-Copy code
+### Config
+
+#### .gitignore
+
+Ensure you have a `.gitignore` file in your root directory to exclude compiled binaries and other unnecessary files from your repository. A minimal `.gitignore` for this project should include:
+
+```gitignore
 # Ignore the binary/executable directory
 bin/
-Step 2: Run the Program
+```
+
+### Step 2: Run the Program
+
 After the command in Step 1 finishes without errors, your program is ready to run. To execute it, you just need to type the path to the new program file.
 
 Run this command:
 
-bash
-Copy code
+```bash
 ./bin/os_simulator
+```
+
 Your program will then start running in the terminal.
 
-Changelog
-Please see CHANGELOG.md for more information on what has changed recently.
+---
+
+## Changelog
+
+Please see `CHANGELOG.md` for more information on what has changed recently.
 (You will need to create this file manually as the project evolves.)
 
-Contributing
+---
+
+## Contributing
+
 Contributions are welcome! Please follow these steps to contribute:
 
-Fork the repository.
-
-Create your Feature Branch (git checkout -b feature/AmazingFeature).
-
-Commit your Changes (git commit -m 'Add some AmazingFeature').
-
-Push to the Branch (git push origin feature/AmazingFeature).
-
-Open a Pull Request.
+1. Fork the repository.
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the Branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
 
 For major changes, please open an issue first to discuss what you would like to change.
 
 Thank you!
 
-<p align="right">^ <a href="#os-simulator-project">back to top</a> ^</p> ```
+---
+
+<p align="right">^ <a href="#os-simulator-project">back to top</a> ^</p>
