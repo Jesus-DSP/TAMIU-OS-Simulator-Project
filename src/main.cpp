@@ -5,8 +5,8 @@ using namespace std;
 
 int main() {
     // 1. Simulate the boot up process
-    cout << "OS is booting up..." << endl;
-    cout << "Welcome to the OS command line interface." << endl;
+    cout << "\nOS is booting up..." << endl;
+    cout << "\nWelcome to the OS command line interface." << endl;
     cout << "------------------------------------------" << endl << endl;
 
     // 2. Call the authentication function
@@ -19,7 +19,7 @@ int main() {
         cout << "\nAuthentication failed. Invalid username or password." << endl;
     }
 
-    cout << "\nSimOS is shutting down." << endl;
+    cout << "\nOS is shutting down." << endl;
 
     return 0;
 }
