@@ -19,7 +19,7 @@
   ![version: 1.0.0](https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge)
   [![Minimum C++ Standard: C++11](https://img.shields.io/badge/C%2B%2B-11-blue.svg?style=for-the-badge)](https://en.cppreference.com/w/cpp/compiler_support)
   [![Language: C++](https://img.shields.io/badge/language-C%2B%2B-00599C.svg?style=for-the-badge)](https://isocpp.org/)
-  [![Total Commits](https://img.shields.io/github/commits-since/Jesus-DSP/TAMIU-OS-Simulator-Project/v1.0.0?style=for-the-badge)](https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project/commits/main)
+  [![Last Commit](https://img.shields.io/github/last-commit/Jesus-DSP/TAMIU-OS-Simulator-Project?style=for-the-badge)](https://github.com/Jesus-DSP/TAMIU-OS-Simulator-Project/commits/main)
 </div>
 
 
@@ -69,7 +69,7 @@ To get your copy of the simulation running locally, follow these simple steps.
 ### Requirements
 - **C++ Compiler**: `g++` (or equivalent)
 - **Git**: For cloning the repository.
-- **make**: (Optional, but recommended for easy compilation).
+- **OS**: Preferably.
 
 ### Installation
 
