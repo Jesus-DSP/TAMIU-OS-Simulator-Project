@@ -23,21 +23,33 @@
 </div>
 
 
-### 🤔 Why create this basic OS?
+### Why create this basic OS?
 
 This project aims to provide a hands-on learning experience in operating system concepts by building a simplified simulator from the ground up. It allows exploration of fundamental OS components such as user authentication, process management, and memory allocation in a controlled C++ environment.
 
 The initial phase focuses on establishing a solid foundation for future development, ensuring a modular and extensible structure for more complex OS features to be added progressively.
 
+---
 
-## 📖 Table of Contents
+## Members
+
+This project was created by: 
+- Jesus Salazar
+- Humberto Huerta
+- Jorge Rodriguez
+- Rafael Contreras
+
+
+
+## Table of Contents
 
 <details>
 <summary>Click to expand</summary>
 
-- [📖 Table of Contents](#-table-of-contents)
-- [⛓ Features](#-features)
-- [🚀 Getting Started](#-getting-started)
+- [Members](#-members)
+- [Table of Contents](#-table-of-contents)
+- [Features](#-features)
+- [Getting Started](#-getting-started)
     - [Requirements](#requirements)
     - [Installation](#installation)
         - [Download or Clone the Project](#download-or-clone-the-project)
@@ -45,23 +57,17 @@ The initial phase focuses on establishing a solid foundation for future developm
     - [Config](#config)
         - [.gitignore](#gitignore)
     - [Step 2: Run the Program](#step-2-run-the-program)
-- [🔨 Development](#-development)
+- [Development](#-development)
     - [Tech Stack](#tech-stack)
-- [☑️ TODOs](#%EF%B8%8F-todos)
-- [✨ Future Features](#-future-features)
+- [Future Features](#-future-features)
 - [Changelog](#changelog)
-- [Help & Questions](#help--questions)
 - [Contributing](#contributing)
-- [👤 Author](#-author)
-- [🤝 Credits](#-credits)
-- [💛 Support](#-support)
-- [⚖️ Disclaimer](#%EF%B8%8F-disclaimer)
 </details>
 
 
 ---
 
-## ⛓ Features
+## Features
 - **Simulated Boot Process**: Displays a boot-up message to the user upon program start.
 - **Basic Program Structure**: Organized C++ files (`main.cpp`, `auth.h`, `auth.cpp`).
 - **Simple Authentication**: `authenticateUser()` function prompts for username and password, verifying against hardcoded credentials (`admin` / `password123`).
@@ -69,9 +75,9 @@ The initial phase focuses on establishing a solid foundation for future developm
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-To get your copy of the simmulation running locally, follow these simple steps.
+To get your copy of the simulation running locally, follow these simple steps.
 
 ### Requirements
 - **C++ Compiler**: `g++` (or equivalent)
@@ -131,30 +137,11 @@ Run this command:
 ./bin/os_simulator
 ```
 
-Your program will then start running in the terminal. 👍
+Your program will then start running in the terminal.
 
 ---
 
-## 🔨 Development
-
-### Tech Stack
-
-The project is built using:
-
-- C++: The core programming language.
-- g++: The GNU C++ Compiler for compilation.
-
----
-
-## ☑️ TODOs
-
-- [ ] Implement a more robust user management system (e.g., storing credentials in a file).
-- [ ] Expand the main function to include a basic command-line shell after authentication.
-- [ ] Add unit tests for the authentication function and other modules.
-
----
-
-## ✨ Future Features
+##Future Features
 
 - Command-line Interface (CLI): A functional shell for user interaction.
 - Process Management: Basic simulation of process creation, scheduling, and termination.
@@ -168,16 +155,6 @@ The project is built using:
 
 Please see `CHANGELOG.md` for more information on what has changed recently.
 (You will need to create this file manually as the project evolves.)
-
----
-
-## Help & Questions
-
-For any questions, issues, or discussions regarding this project:
-
-- Start a new discussion in the Discussions Tab.
-- Report a Bug.
-- Request a Feature.
 
 ---
 
@@ -196,36 +173,5 @@ For major changes, please open an issue first to discuss what you would like to 
 Thank you!
 
 ---
-
-## 👤 Author
-
-Basic OS is primarily developed by:
-
-- 🦜 Jesus-DSP
-  - GitHub: `@Jesus-DSP`
-  - [Add other team members here with their GitHub links]
-
----
-
-## 🤝 Credits
-
-This project utilizes the standard C++ library and the g++ compiler. No external third-party libraries are used in this initial phase.
-
----
-
-## 💛 Support
-
-If this project helps you learn or is useful, please consider:
-
-- ⭐️ Star this project on GitHub
-- 🐙 Follow me on GitHub
-
-Every bit of support is appreciated! 🙏
-
----
-
-## ⚖️ Disclaimer
-
-This basic OS project is a simplified educational simulator and is not intended to replicate a real-world operating system. It is designed for academic purposes to illustrate fundamental OS concepts. It does not provide the security, stability, or features of a commercial operating system. Use at your own risk.
 
 <p align="right">^ <a href="#os-simulator-project">back to top</a> ^</p>
