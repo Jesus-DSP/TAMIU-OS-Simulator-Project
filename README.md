@@ -71,7 +71,7 @@ The initial phase focuses on establishing a solid foundation for future developm
 
 ## 🚀 Getting Started
 
-To get your copy of SimOS running locally, follow these simple steps.
+To get your copy of the simmulation running locally, follow these simple steps.
 
 ### Requirements
 - **C++ Compiler**: `g++` (or equivalent)
@@ -199,7 +199,7 @@ Thank you!
 
 ## 👤 Author
 
-SimOS is primarily developed by:
+Basic OS is primarily developed by:
 
 - 🦜 Jesus-DSP
   - GitHub: `@Jesus-DSP`
@@ -226,6 +226,6 @@ Every bit of support is appreciated! 🙏
 
 ## ⚖️ Disclaimer
 
-This SimOS project is a simplified educational simulator and is not intended to replicate a real-world operating system. It is designed for academic purposes to illustrate fundamental OS concepts. It does not provide the security, stability, or features of a commercial operating system. Use at your own risk.
+This basic OS project is a simplified educational simulator and is not intended to replicate a real-world operating system. It is designed for academic purposes to illustrate fundamental OS concepts. It does not provide the security, stability, or features of a commercial operating system. Use at your own risk.
 
 <p align="right">^ <a href="#os-simulator-project">back to top</a> ^</p>
