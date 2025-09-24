@@ -5,8 +5,8 @@ using namespace std;
 
 int main() {
     // 1. Simulate the boot up process
-    cout << "SimOS is booting up..." << endl;
-    cout << "Welcome to the SimOS command line interface." << endl;
+    cout << "OS is booting up..." << endl;
+    cout << "Welcome to the OS command line interface." << endl;
     cout << "------------------------------------------" << endl << endl;
 
     // 2. Call the authentication function
