@@ -31,13 +31,17 @@ The initial phase focuses on establishing a solid foundation for future developm
 
 ---
 
+<div align="center"> <img src="assets/images/demo.gif" alt="OS Simulator Demo" width="80%"> </div>
+
+---
+
 ## Members
 
 This project was created by: 
 - Jesus Salazar
 - Humberto Huerta
 - Jorge Rodriguez
-- Rafael Contreras
+- Rafael Gonzalez
 
 
 ---
@@ -164,6 +168,21 @@ Your program will then start running in the terminal.
     ```bash
     .\bin\os_simulator.exe
     ```
+
+---
+
+## Project Structure
+
+```plaintext
+TAMIU-OS-Simulator-Project/
+├── assets/              # Images and other static assets
+├── bin/                 # Compiled executables (created after build)
+├── src/                 # Source code files
+│   ├── main.cpp         # Entry point of the simulator
+│   ├── auth.cpp         # Handles authentication logic
+│   └── auth.h           # Header for authentication
+├── CMakeLists.txt       # Build configuration (for Windows/Visual Studio)
+└── README.md            # Project documentation
 
 ---
 
