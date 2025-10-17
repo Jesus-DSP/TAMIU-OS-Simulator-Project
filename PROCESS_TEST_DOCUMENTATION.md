@@ -205,3 +205,138 @@ The test cases comprehensively demonstrate:
 
 Each test case creates 7 processes, totaling 21 process instances across all algorithms, providing extensive demonstration of the Process class functionality and CPU scheduling behavior.
 
+## Program Output
+
+Below is the complete output from running the OS Simulator:
+
+```
+OS is booting up...
+
+Welcome to the OS command line interface.
+------------------------------------------
+
+Please enter your username: admin
+Please enter your password: password123
+
+Authentication successful. Welcome, admin!
+
+=== FCFS Scheduling ===
+Process Information:
+P1 - Arrival: 2, Burst: 3
+P2 - Arrival: 4, Burst: 2
+P3 - Arrival: 5, Burst: 1
+P4 - Arrival: 7, Burst: 4
+P5 - Arrival: 9, Burst: 2
+P6 - Arrival: 15, Burst: 6
+P7 - Arrival: 16, Burst: 8
+Time 0: No process
+Time 1: No process
+Time 2: Process P1 running (1/3)
+Time 3: Process P1 running (2/3)
+Time 4: Process P1 running (3/3)
+Time 5: Process P2 running (1/2)
+Time 6: Process P2 running (2/2)
+Time 7: Process P3 running (1/1)
+Time 8: Process P4 running (1/4)
+Time 9: Process P4 running (2/4)
+Time 10: Process P4 running (3/4)
+Time 11: Process P4 running (4/4)
+Time 12: Process P5 running (1/2)
+Time 13: Process P5 running (2/2)
+Time 14: No process
+Time 15: Process P6 running (1/6)
+Time 16: Process P6 running (2/6)
+Time 17: Process P6 running (3/6)
+Time 18: Process P6 running (4/6)
+Time 19: Process P6 running (5/6)
+Time 20: Process P6 running (6/6)
+Time 21: Process P7 running (1/8)
+Time 22: Process P7 running (2/8)
+Time 23: Process P7 running (3/8)
+Time 24: Process P7 running (4/8)
+Time 25: Process P7 running (5/8)
+Time 26: Process P7 running (6/8)
+Time 27: Process P7 running (7/8)
+Time 28: Process P7 running (8/8)
+
+=== SJF Scheduling ===
+Process Information:
+P1 - Arrival: 2, Burst: 3
+P2 - Arrival: 4, Burst: 2
+P3 - Arrival: 5, Burst: 1
+P4 - Arrival: 7, Burst: 4
+P5 - Arrival: 9, Burst: 2
+P6 - Arrival: 15, Burst: 6
+P7 - Arrival: 16, Burst: 8
+Time 0: No process
+Time 1: No process
+Time 2: Process P1 running (1/3)
+Time 3: Process P1 running (2/3)
+Time 4: Process P1 running (3/3)
+Time 5: Process P3 running (1/1)
+Time 6: Process P2 running (1/2)
+Time 7: Process P2 running (2/2)
+Time 8: Process P4 running (1/4)
+Time 9: Process P4 running (2/4)
+Time 10: Process P4 running (3/4)
+Time 11: Process P4 running (4/4)
+Time 12: Process P5 running (1/2)
+Time 13: Process P5 running (2/2)
+Time 14: No process
+Time 15: Process P6 running (1/6)
+Time 16: Process P6 running (2/6)
+Time 17: Process P6 running (3/6)
+Time 18: Process P6 running (4/6)
+Time 19: Process P6 running (5/6)
+Time 20: Process P6 running (6/6)
+Time 21: Process P7 running (1/8)
+Time 22: Process P7 running (2/8)
+Time 23: Process P7 running (3/8)
+Time 24: Process P7 running (4/8)
+Time 25: Process P7 running (5/8)
+Time 26: Process P7 running (6/8)
+Time 27: Process P7 running (7/8)
+Time 28: Process P7 running (8/8)
+
+=== Round Robin (quantum=2) ===
+Process Information:
+P1 - Arrival: 2, Burst: 3
+P2 - Arrival: 4, Burst: 2
+P3 - Arrival: 5, Burst: 1
+P4 - Arrival: 7, Burst: 4
+P5 - Arrival: 9, Burst: 2
+P6 - Arrival: 15, Burst: 6
+P7 - Arrival: 16, Burst: 8
+Time 0: No process
+Time 1: No process
+Time 2: Process P1 running (1/3)
+Time 3: Process P1 running (2/3)
+Time 4: Process P1 running (3/3)
+Time 5: Process P2 running (1/2)
+Time 6: Process P2 running (2/2)
+Time 7: Process P3 running (1/1)
+Time 8: Process P4 running (1/4)
+Time 9: Process P4 running (2/4)
+Time 10: Process P5 running (1/2)
+Time 11: Process P5 running (2/2)
+Time 12: Process P4 running (3/4)
+Time 13: Process P4 running (4/4)
+Time 14: No process
+Time 15: Process P6 running (1/6)
+Time 16: Process P6 running (2/6)
+Time 17: Process P7 running (1/8)
+Time 18: Process P7 running (2/8)
+Time 19: Process P6 running (3/6)
+Time 20: Process P6 running (4/6)
+Time 21: Process P7 running (3/8)
+Time 22: Process P7 running (4/8)
+Time 23: Process P6 running (5/6)
+Time 24: Process P6 running (6/6)
+Time 25: Process P7 running (5/8)
+Time 26: Process P7 running (6/8)
+Time 27: Process P7 running (7/8)
+Time 28: Process P7 running (8/8)
+
+OS is shutting down.
+```
+
