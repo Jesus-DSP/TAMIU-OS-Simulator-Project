@@ -4,7 +4,7 @@ This document explains the test cases implemented in the OS Simulator that demon
 
 ## Overview
 
-The simulator creates process instances and demonstrates their lifecycle through various states (NEW, READY, RUNNING, TERMINATED) while executing three different scheduling strategies: FCFS, SJF, and Round Robin.
+The simulator creates processes and shows state changes (NEW, READY, RUNNING, TERMINATED) while executing three different scheduling strategies: FCFS, SJF, and Round Robin.
 
 ## Process Class Implementation
 
@@ -46,10 +46,10 @@ void Process::decrementTime() {
 }
 ```
 
-## Test Case 1: First-Come, First-Served (FCFS)
+## Test Case 1: First Come First Served (FCFS)
 
 ### Process Creation
-Seven processes are created with varying arrival times and burst times:
+Seven processes are created with differnt arrival times and burst times:
 
 ```cpp
 Process* p1 = new Process(1, 2, 3);   // PID=1, Arrival=2, Burst=3
@@ -167,12 +167,9 @@ else if (timeSlice >= quantum) {
 Round Robin demonstrates:
 - NEW to READY (arrival)
 - READY to RUNNING (scheduled)
-- RUNNING to READY (preempted after quantum expires)
+- RUNNING to READY (quantum time finishes to next proces)
 - RUNNING to TERMINATED (completed)
 
-## Time-Cycle Execution
-
-All three algorithms run cycle-by-cycle from time 0, demonstrating:
 
 ### Idle Cycles
 When no process has arrived:
@@ -194,16 +191,9 @@ The test cases comprehensively demonstrate:
 
 1. Process instance creation with constructor
 2. State transitions using updateState method
-3. Execution tracking using decrementTime method
-4. Getter methods for process attributes
-5. Three different scheduling algorithms
-6. Complete process lifecycle from NEW to TERMINATED
-7. Preemptive scheduling (Round Robin)
-8. Non-preemptive scheduling (FCFS, SJF)
-9. Cycle-by-cycle execution output
-10. Ready queue management
-
-Each test case creates 7 processes, totaling 21 process instances across all algorithms, providing extensive demonstration of the Process class functionality and CPU scheduling behavior.
+3. Execution using decrementTime method
+4. Three different scheduling algorithms (FCFS, SJF, RR)
+5. State changes from NEW to READY to TERMINATED, also WAITING
 
 ## Program Output
 
