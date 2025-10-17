@@ -58,6 +58,7 @@ This project was created by:
         - [Download or Clone the Project](#download-or-clone-the-project)
         - [Step 1: Compile the Code](#step-1-compile-the-code)
     - [Step 2: Run the Program](#step-2-run-the-program)
+- [Process Scheduling Test Cases](PROCESS_TEST_DOCUMENTATION.md)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
 </details>
