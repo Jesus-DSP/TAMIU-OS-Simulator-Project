@@ -142,8 +142,8 @@ Process* rr6 = new Process(6, 15, 6);
 Process* rr7 = new Process(7, 16, 8);
 ```
 
-### Preemptive Scheduling
-Round Robin adds an additional state transition for preemption:
+### Time Quantum
+Process goes to ready when time quantum finishes for the next process in the queue.
 
 ```cpp
 // Execute and track time slice
@@ -155,7 +155,7 @@ if (running->getRemainingTime() == 0) {
     running->updateState(TERMINATED);
     running = NULL;
 }
-// Quantum expired - preempt
+// Quantum finish
 else if (timeSlice >= quantum) {
     running->updateState(READY);
     readyQueue.push_back(running);
