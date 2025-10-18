@@ -1,10 +1,10 @@
 # Process Scheduling Test Cases Documentation
 
-This document explains the test cases implemented in the OS Simulator that demonstrate process creation, state changes, and execution across three CPU scheduling algorithms.
+This document explains the test cases implemented in the OS Simulator that demonstrate process creation, state changes, and execution with First Come First Served Scheduling Algorithm.
 
 ## Overview
 
-The simulator creates processes and shows state changes (NEW, READY, RUNNING, TERMINATED) while executing three different scheduling strategies: FCFS, SJF, and Round Robin.
+The simulator creates processes and shows state changes (NEW, READY, RUNNING, TERMINATED) with FCFS algorithm.
 
 ## Process Class Implementation
 
@@ -94,97 +94,6 @@ if (running != NULL) {
 }
 ```
 
-## Test Case 2: Shortest-Job-First (SJF)
-
-### Process Creation
-Seven processes identical to FCFS are created:
-
-```cpp
-Process* s1 = new Process(1, 2, 3);
-Process* s2 = new Process(2, 4, 2);
-Process* s3 = new Process(3, 5, 1);
-Process* s4 = new Process(4, 7, 4);
-Process* s5 = new Process(5, 9, 2);
-Process* s6 = new Process(6, 15, 6);
-Process* s7 = new Process(7, 16, 8);
-```
-
-### Ready Queue Management
-SJF maintains processes in sorted order by burst time:
-
-```cpp
-// Insert in sorted order by burst time
-int insertPos = readyQueue.size();
-for (int j = 0; j < readyQueue.size(); j++) {
-    if (sjfProcs[i]->getBurstTime() < readyQueue[j]->getBurstTime()) {
-        insertPos = j;
-        break;
-    }
-}
-readyQueue.insert(readyQueue.begin() + insertPos, sjfProcs[i]);
-```
-
-### State Changes
-SJF demonstrates the same state transitions as FCFS but selects processes based on shortest burst time first.
-
-## Test Case 3: Round Robin (RR)
-
-### Process Creation
-Seven processes with quantum time slice of 2:
-
-```cpp
-Process* rr1 = new Process(1, 2, 3);
-Process* rr2 = new Process(2, 4, 2);
-Process* rr3 = new Process(3, 5, 1);
-Process* rr4 = new Process(4, 7, 4);
-Process* rr5 = new Process(5, 9, 2);
-Process* rr6 = new Process(6, 15, 6);
-Process* rr7 = new Process(7, 16, 8);
-```
-
-### Time Quantum
-Process goes to ready when time quantum finishes for the next process in the queue.
-
-```cpp
-// Execute and track time slice
-running->decrementTime();
-timeSlice++;
-
-// Process complete
-if (running->getRemainingTime() == 0) {
-    running->updateState(TERMINATED);
-    running = NULL;
-}
-// Quantum finish
-else if (timeSlice >= quantum) {
-    running->updateState(READY);
-    readyQueue.push_back(running);
-    running = NULL;
-}
-```
-
-### State Transition Flow
-Round Robin demonstrates:
-- NEW to READY (arrival)
-- READY to RUNNING (scheduled)
-- RUNNING to READY (quantum time finishes to next proces)
-- RUNNING to TERMINATED (completed)
-
-
-### Idle Cycles
-When no process has arrived:
-```cpp
-cout << "Time " << time << ": No process" << endl;
-```
-
-### Active Execution
-When a process is running:
-```cpp
-int executed = running->getBurstTime() - running->getRemainingTime() + 1;
-cout << "Time " << time << ": Process P" << running->getPID() 
-     << " running (" << executed << "/" << running->getBurstTime() << ")" << endl;
-```
-
 ## Summary
 
 The test cases comprehensively demonstrate:
@@ -192,7 +101,7 @@ The test cases comprehensively demonstrate:
 1. Process instance creation with constructor
 2. State transitions using updateState method
 3. Execution using decrementTime method
-4. Three different scheduling algorithms (FCFS, SJF, RR)
+4. Test case with First come, First Served 
 5. State changes from NEW to READY to TERMINATED, also WAITING
 
 ## Program Output
@@ -249,83 +158,6 @@ Time 26: Process P7 running (6/8)
 Time 27: Process P7 running (7/8)
 Time 28: Process P7 running (8/8)
 
-=== SJF Scheduling ===
-Process Information:
-P1 - Arrival: 2, Burst: 3
-P2 - Arrival: 4, Burst: 2
-P3 - Arrival: 5, Burst: 1
-P4 - Arrival: 7, Burst: 4
-P5 - Arrival: 9, Burst: 2
-P6 - Arrival: 15, Burst: 6
-P7 - Arrival: 16, Burst: 8
-Time 0: No process
-Time 1: No process
-Time 2: Process P1 running (1/3)
-Time 3: Process P1 running (2/3)
-Time 4: Process P1 running (3/3)
-Time 5: Process P3 running (1/1)
-Time 6: Process P2 running (1/2)
-Time 7: Process P2 running (2/2)
-Time 8: Process P4 running (1/4)
-Time 9: Process P4 running (2/4)
-Time 10: Process P4 running (3/4)
-Time 11: Process P4 running (4/4)
-Time 12: Process P5 running (1/2)
-Time 13: Process P5 running (2/2)
-Time 14: No process
-Time 15: Process P6 running (1/6)
-Time 16: Process P6 running (2/6)
-Time 17: Process P6 running (3/6)
-Time 18: Process P6 running (4/6)
-Time 19: Process P6 running (5/6)
-Time 20: Process P6 running (6/6)
-Time 21: Process P7 running (1/8)
-Time 22: Process P7 running (2/8)
-Time 23: Process P7 running (3/8)
-Time 24: Process P7 running (4/8)
-Time 25: Process P7 running (5/8)
-Time 26: Process P7 running (6/8)
-Time 27: Process P7 running (7/8)
-Time 28: Process P7 running (8/8)
-
-=== Round Robin (quantum=2) ===
-Process Information:
-P1 - Arrival: 2, Burst: 3
-P2 - Arrival: 4, Burst: 2
-P3 - Arrival: 5, Burst: 1
-P4 - Arrival: 7, Burst: 4
-P5 - Arrival: 9, Burst: 2
-P6 - Arrival: 15, Burst: 6
-P7 - Arrival: 16, Burst: 8
-Time 0: No process
-Time 1: No process
-Time 2: Process P1 running (1/3)
-Time 3: Process P1 running (2/3)
-Time 4: Process P1 running (3/3)
-Time 5: Process P2 running (1/2)
-Time 6: Process P2 running (2/2)
-Time 7: Process P3 running (1/1)
-Time 8: Process P4 running (1/4)
-Time 9: Process P4 running (2/4)
-Time 10: Process P5 running (1/2)
-Time 11: Process P5 running (2/2)
-Time 12: Process P4 running (3/4)
-Time 13: Process P4 running (4/4)
-Time 14: No process
-Time 15: Process P6 running (1/6)
-Time 16: Process P6 running (2/6)
-Time 17: Process P7 running (1/8)
-Time 18: Process P7 running (2/8)
-Time 19: Process P6 running (3/6)
-Time 20: Process P6 running (4/6)
-Time 21: Process P7 running (3/8)
-Time 22: Process P7 running (4/8)
-Time 23: Process P6 running (5/6)
-Time 24: Process P6 running (6/6)
-Time 25: Process P7 running (5/8)
-Time 26: Process P7 running (6/8)
-Time 27: Process P7 running (7/8)
-Time 28: Process P7 running (8/8)
 
 OS is shutting down.
 ```
