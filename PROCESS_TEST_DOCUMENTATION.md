@@ -137,7 +137,7 @@ if (running != NULL) {
     int executed = running->getBurstTime() - running->getRemainingTime() + 1;
     cout << "Time " << time << ": Process P" << running->getPID() 
          << " running (" << executed << "/" << running->getBurstTime() << ")" << endl;
-    running->decrementTime();  // Using Process class method to manage time
+    running->decrementTime();
 }
 ```
 
