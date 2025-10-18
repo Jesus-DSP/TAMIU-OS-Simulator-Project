@@ -97,7 +97,6 @@ int main() {
         vector<Process*> readyQueue;
         int nextProc = 0;
         Process* running = NULL;
-        int remainingBurst = 0;
         bool allDone = false;
         
         while (!allDone) {
@@ -117,15 +116,14 @@ int main() {
                 running = readyQueue[0];
                 readyQueue.erase(readyQueue.begin());
                 running->updateState(RUNNING);
-                remainingBurst = running->getBurstTime();
             }
             
             // Execute current time cycle
             if (running != NULL) {
-                int executed = running->getBurstTime() - remainingBurst + 1;
+                int executed = running->getBurstTime() - running->getRemainingTime() + 1;
                 cout << "Time " << time << ": Process P" << running->getPID() << " running (" << executed << "/" << running->getBurstTime() << ")" << endl;
-                remainingBurst--;
-                if (remainingBurst == 0) {
+                running->decrementTime();  // Using the Process class method
+                if (running->getRemainingTime() == 0) {
                     running->updateState(TERMINATED);
                     running = NULL;
                 }

@@ -8,6 +8,42 @@ The simulator creates processes and shows state changes (NEW, READY, RUNNING, TE
 
 ## Process Class Implementation
 
+### Class Overview
+The Process class represents a process in our operating system simulator. It had essential attributes and methods of a process, including:
+
+#### Attributes
+- `pid`: Process identifier
+- `arrival_time`: Time when the process enters the system
+- `burst_time`: Total CPU time required by the process
+- `priority`: Process priority level (default: 0)
+- `state`: Current state of the process (NEW, READY, RUNNING, TERMINATED)
+- `remaining_time`: Time left for completion
+- `waiting_time`: Total time spent waiting
+- `turnaround_time`: Total time from arrival to completion
+- `memory_required`: Amount of memory needed by the process
+- `has_io`: Flag indicating if process requires I/O operations
+
+#### Methods
+1. **State Management**
+   - `updateState(ProcessState newState)`: Updates the state
+   - `getState()`: Returns current process state
+
+2. **Time Management**
+   - `decrementTime()`: Reduces remaining execution time
+   - `getRemainingTime()`: Returns remaining execution time
+   - `getWaitingTime()`: Returns total waiting time
+   - `getTurnaroundTime()`: Returns total turnaround time
+   - `setWaitingTime(int time)`: Sets the waiting time
+   - `setTurnaroundTime(int time)`: Sets the turnaround time
+
+3. **Process Information**
+   - `getPID()`: Returns process ID
+   - `getArrivalTime()`: Returns arrival time
+   - `getBurstTime()`: Returns total CPU burst time
+   - `getPriority()`: Returns process priority
+   - `getMemoryRequired()`: Returns required memory
+   - `hasIO()`: Returns whether process has I/O operations
+
 ### Constructor
 The Process class initializes all process attributes:
 
@@ -36,15 +72,26 @@ void Process::updateState(ProcessState newState) {
 ```
 
 ### Execution Control
-The decrementTime method reduces remaining execution time:
+The Process class manages its own execution time through internal methods. The `decrementTime()` method reduces the remaining execution time, while `getRemainingTime()` allows checking the current progress:
 
 ```cpp
+// Reduces remaining execution time
 void Process::decrementTime() {
     if (remaining_time > 0) {
         remaining_time--;
     }
 }
+
+// Returns current remaining time
+int Process::getRemainingTime() { 
+    return remaining_time; 
+}
 ```
+
+This encapsulation ensures that time management is handled consistently within the Process class itself, rather than being managed externally. The scheduler uses these methods to:
+1. Check process completion (`getRemainingTime() == 0`)
+2. Track execution progress (`getBurstTime() - getRemainingTime()`)
+3. Update remaining time (`decrementTime()`)
 
 ## Test Case 1: First Come First Served (FCFS)
 
@@ -87,10 +134,10 @@ if (fcfsProcs[i]->getArrivalTime() <= time) {
 
 // Execute current process
 if (running != NULL) {
-    int executed = running->getBurstTime() - remainingBurst + 1;
+    int executed = running->getBurstTime() - running->getRemainingTime() + 1;
     cout << "Time " << time << ": Process P" << running->getPID() 
          << " running (" << executed << "/" << running->getBurstTime() << ")" << endl;
-    remainingBurst--;
+    running->decrementTime();  // Using Process class method to manage time
 }
 ```
 
