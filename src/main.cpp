@@ -2,12 +2,12 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "auth.h" // Include the authentication header
+#include "auth.h"
 #include "process.h"
 
 using namespace std;
 
-// Process class implementation
+// Constructor
 Process::Process(int pid, int arrival_time, int burst_time, int priority, int memory, bool io) {
     this->pid = pid;
     this->arrival_time = arrival_time;
@@ -41,7 +41,7 @@ bool authenticateUser() {
     string username;
     string password;
 
-    // Prompt the user for credentials
+    // Prompt the user for user and pass
     cout << "Please enter your username: ";
     cin >> username;
     cout << "Please enter your password: ";
@@ -64,7 +64,7 @@ int main() {
     // 2. Call the authentication function
     bool isAuthenticated = authenticateUser();
 
-    // 3. Display success or failure message based on authentication result
+    // 3. Display success or failure
     if (isAuthenticated) {
         cout << "\nAuthentication successful. Welcome, admin!" << endl;
         
