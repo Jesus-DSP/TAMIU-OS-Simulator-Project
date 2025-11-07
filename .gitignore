@@ -3,3 +3,9 @@
 
 # But keep the directory itself
 !/bin/.gitkeep
+
+# Visual Studio build artifacts
+*.exe
+*.ilk
+*.obj
+*.pdb

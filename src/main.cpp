@@ -98,6 +98,7 @@ int main() {
         int nextProc = 0;
         Process* running = NULL;
         bool allDone = false;
+        vector<int> completionTimes(fcfsProcs.size(), 0);
         
         while (!allDone) {
             // Add processes that have arrived to ready queue
@@ -125,6 +126,8 @@ int main() {
                 running->decrementTime();  // Using the Process class method
                 if (running->getRemainingTime() == 0) {
                     running->updateState(TERMINATED);
+                    // Store completion time
+                    completionTimes[running->getPID() - 1] = time + 1;
                     running = NULL;
                 }
             } else {
@@ -135,6 +138,37 @@ int main() {
             allDone = (nextProc >= fcfsProcs.size() && running == NULL && readyQueue.size() == 0);
             time++;
         }
+        
+        // Calculate and display times
+        cout << "\n=== FCFS Scheduling Results ===" << endl;
+        cout << "PID\tArrival\tBurst\tCompletion\tTurnaround\tWaiting" << endl;
+        cout << "-----------------------------------------------------------" << endl;
+        
+        double totalTurnaround = 0;
+        double totalWaiting = 0;
+        
+        for (int i = 0; i < fcfsProcs.size(); i++) {
+            int completionTime = completionTimes[i];
+            int turnaroundTime = completionTime - fcfsProcs[i]->getArrivalTime();
+            int waitingTime = turnaroundTime - fcfsProcs[i]->getBurstTime();
+            
+            fcfsProcs[i]->setTurnaroundTime(turnaroundTime);
+            fcfsProcs[i]->setWaitingTime(waitingTime);
+            
+            totalTurnaround += turnaroundTime;
+            totalWaiting += waitingTime;
+            
+            cout << "P" << fcfsProcs[i]->getPID() << "\t"
+                 << fcfsProcs[i]->getArrivalTime() << "\t"
+                 << fcfsProcs[i]->getBurstTime() << "\t"
+                 << completionTime << "\t\t"
+                 << turnaroundTime << "\t\t"
+                 << waitingTime << endl;
+        }
+        
+        cout << "-----------------------------------------------------------" << endl;
+        cout << "Average Turnaround Time: " << (totalTurnaround / fcfsProcs.size()) << endl;
+        cout << "Average Waiting Time: " << (totalWaiting / fcfsProcs.size()) << endl;
         
         delete p1;
         delete p2;
