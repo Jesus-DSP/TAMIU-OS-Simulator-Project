@@ -324,35 +324,36 @@ int main() {
     if (isAuthenticated) {
         cout << "\nAuthentication successful. Welcome, admin!" << endl;
 
-        
+        // --- IMPORTANT: declare processes INSIDE main, before the menu ---
         vector<Process*> procs = readInputOrDemo();
 
-        //choose scheduling policy
-        cout << "\nChoose scheduling policy: "
-            << "1 = First Come First Serve, "
-            << "2 = Shortest Job First (Non-preemptive), "
-            << "3 = Round Robin: ";
-        int choice = 1; cin >> choice;
+        // --- Menu (validated) ---
+        int choice = 0;
+        while (true) {
+            cout << "\nChoose scheduling policy: "
+                 << "1 = First Come First Serve, "
+                 << "2 = Shortest Job First (Non-preemptive), "
+                 << "3 = Round Robin: ";
+            if (cin >> choice && (choice == 1 || choice == 2 || choice == 3)) break;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid option. Please enter 1, 2, or 3.\n";
+        }
 
         if (choice == 1) {
             runFCFS(procs);
         } else if (choice == 2) {
             runSJF(procs);
-        } else if (choice == 3) {
+        } else { // choice == 3
             cout << "Enter time quantum q: ";
-            int q; 
+            int q;
             while (!(cin >> q)) {
                 cin.clear();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input. Enter integer quantum: ";
             }
             runRR(procs, q);
-        } else {
-            cout << "Invalid choice. Defaulting to FCFS." << endl;
-            runFCFS(procs);
         }
-
-
 
         // Cleanup
         for (auto* p : procs) delete p;
@@ -362,6 +363,5 @@ int main() {
     }
 
     cout << "\nOS is shutting down." << endl;
-
     return 0;
 }
