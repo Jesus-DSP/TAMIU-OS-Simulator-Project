@@ -5,6 +5,8 @@
 #include <limits>
 #include "auth.h"
 #include "process.h"
+#include <queue>
+#include <unordered_map>
 
 using namespace std;
 
@@ -226,6 +228,89 @@ static void runSJF(vector<Process*>& procs) {
     printResults(procs, completionTimes);
 }
 
+static void runRR(std::vector<Process*>& procs, int q) {
+    using std::queue;
+    using std::sort;
+
+    if (q <= 0) {
+        std::cout << "\n[RR] Invalid quantum. Using q=1.\n";
+        q = 1;
+    }
+
+    std::cout << "\n=== Round Robin (q=" << q << ") ===\n";
+
+    const int n = (int)procs.size();
+    std::vector<int> completionTimes(n, 0);
+
+    // Stable intake order by (arrival, pid) for deterministic behavior
+    std::vector<int> order(n);
+    for (int i = 0; i < n; ++i) order[i] = i;
+    sort(order.begin(), order.end(), [&](int a, int b) {
+        if (procs[a]->getArrivalTime() != procs[b]->getArrivalTime())
+            return procs[a]->getArrivalTime() < procs[b]->getArrivalTime();
+        return procs[a]->getPID() < procs[b]->getPID();
+    });
+
+    // Ready queue holds indices into `procs`
+    queue<int> ready;
+    int t = 0;        // simulated time
+    int i = 0;        // pointer into `order` for new arrivals
+
+    auto enqueue_arrivals = [&](int now) {
+        while (i < n && procs[order[i]]->getArrivalTime() <= now) {
+            int idx = order[i++];
+            procs[idx]->updateState(READY);
+            ready.push(idx);
+        }
+    };
+
+    // If the first arrival is after t=0, fast-forward to that time
+    if (n > 0 && procs[order[0]]->getArrivalTime() > 0)
+        t = procs[order[0]]->getArrivalTime();
+    enqueue_arrivals(t);
+
+    while (!ready.empty() || i < n) {
+        if (ready.empty()) {
+            // jump to next arrival when CPU is idle
+            t = std::max(t, procs[order[i]]->getArrivalTime());
+            enqueue_arrivals(t);
+            continue;
+        }
+
+        int idx = ready.front(); ready.pop();
+        Process* p = procs[idx];
+
+        p->updateState(RUNNING);
+
+        int slice = std::min(q, p->getRemainingTime());
+        for (int step = 0; step < slice; ++step) {
+            // one time unit of CPU
+            std::cout << "Time " << t << ": Process P" << p->getPID()
+                      << " running (" << (p->getBurstTime() - (p->getRemainingTime()-1))
+                      << "/" << p->getBurstTime() << ")\n";
+            p->decrementTime();     // reduces remaining_time by 1
+            t += 1;                 // advance time
+
+            // admit any processes that arrived at this new time
+            enqueue_arrivals(t);
+
+            if (p->getRemainingTime() == 0) break;
+        }
+
+        if (p->getRemainingTime() == 0) {
+            p->updateState(TERMINATED);
+            completionTimes[idx] = t;       // finished at time t
+        } else {
+            p->updateState(READY);
+            ready.push(idx);                // round-robin: back of the queue
+        }
+    }
+
+    printResults(procs, completionTimes);
+}
+
+
+
 int main() {
     // 1. Simulate the boot up process
     cout << "\nOS is booting up..." << endl;
@@ -243,17 +328,31 @@ int main() {
         vector<Process*> procs = readInputOrDemo();
 
         //choose scheduling policy
-        cout << "\nChoose scheduling policy: 1 = First Come First Serve, 2 = Shortest Job First (Non-preemptive): ";
+        cout << "\nChoose scheduling policy: "
+            << "1 = First Come First Serve, "
+            << "2 = Shortest Job First (Non-preemptive), "
+            << "3 = Round Robin: ";
         int choice = 1; cin >> choice;
 
         if (choice == 1) {
             runFCFS(procs);
         } else if (choice == 2) {
             runSJF(procs);
+        } else if (choice == 3) {
+            cout << "Enter time quantum q: ";
+            int q; 
+            while (!(cin >> q)) {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cout << "Invalid input. Enter integer quantum: ";
+            }
+            runRR(procs, q);
         } else {
             cout << "Invalid choice. Defaulting to FCFS." << endl;
             runFCFS(procs);
         }
+
+
 
         // Cleanup
         for (auto* p : procs) delete p;
