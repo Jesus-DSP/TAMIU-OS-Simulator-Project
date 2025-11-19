@@ -3,6 +3,8 @@
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <cstdlib> 
+#include <ctime>   
 #include "auth.h"
 #include "process.h"
 #include <queue>
@@ -36,26 +38,16 @@ void Process::decrementTime() {
 
 // Function Definition
 bool authenticateUser() {
-    // Admin credentials
     const string correctUsername = "admin";
     const string correctPassword = "password123";
+    string username, password;
 
-    // User input
-    string username;
-    string password;
-
-    // Prompt the user for user and pass
     cout << "Please enter your username: ";
     cin >> username;
     cout << "Please enter your password: ";
     cin >> password;
 
-    // Verify the input against the credential values
-    if (username == correctUsername && password == correctPassword) {
-        return true; // Authentication successful
-    } else {
-        return false; // Authentication failed
-    }
+    return (username == correctUsername && password == correctPassword);
 }
 
 static void printResults(const vector<Process*>& procs, const vector<int>& completionTimes) {
@@ -68,9 +60,9 @@ static void printResults(const vector<Process*>& procs, const vector<int>& compl
 
     for (int i = 0; i < (int)procs.size(); i++) {
         int completionTime = completionTimes[i];
-        int turnaroundTime = completionTime - procs[i]->getArrivalTime();   // TAT = CT - AT
-        int waitingTime = turnaroundTime - procs[i]->getBurstTime();        // WT  = TAT - BT
-        // keep your original setters to store metrics
+        int turnaroundTime = completionTime - procs[i]->getArrivalTime();
+        int waitingTime = turnaroundTime - procs[i]->getBurstTime();
+        
         procs[i]->setTurnaroundTime(turnaroundTime);
         procs[i]->setWaitingTime(waitingTime);
 
@@ -96,7 +88,6 @@ static vector<Process*> readInputOrDemo() {
     vector<Process*> procs;
 
     if (n == 0) {
-        // Demo data keeping your original values
         procs.push_back(new Process(1, 2, 3));
         procs.push_back(new Process(2, 4, 2));
         procs.push_back(new Process(3, 5, 1));
@@ -124,48 +115,39 @@ static vector<Process*> readInputOrDemo() {
 
 static void runFCFS(vector<Process*>& fcfsProcs) {
     cout << "\n=== FCFS Scheduling ===" << endl;
-
-    int time = 0;
+    int time = 0, nextProc = 0;
     vector<Process*> readyQueue;
-    int nextProc = 0;
     Process* running = NULL;
     bool allDone = false;
     vector<int> completionTimes(fcfsProcs.size(), 0);
 
-    // Sort by arrival then PID to ensure deterministic intake
     sort(fcfsProcs.begin(), fcfsProcs.end(), [](Process* a, Process* b){
         if (a->getArrivalTime() != b->getArrivalTime()) return a->getArrivalTime() < b->getArrivalTime();
         return a->getPID() < b->getPID();
     });
 
     while (!allDone) {
-        // Add processes that have arrived to ready queue
         for (int i = nextProc; i < (int)fcfsProcs.size(); i++) {
             if (fcfsProcs[i]->getArrivalTime() <= time) {
                 readyQueue.push_back(fcfsProcs[i]);
                 fcfsProcs[i]->updateState(READY);
                 nextProc++;
-            } else {
-                break;
-            }
+            } else break;
         }
 
-        // If no running process, get from ready queue
         if (running == NULL && !readyQueue.empty()) {
             running = readyQueue[0];
             readyQueue.erase(readyQueue.begin());
             running->updateState(RUNNING);
         }
 
-        // Execute current time cycle
         if (running != NULL) {
             int executed = running->getBurstTime() - running->getRemainingTime() + 1;
             cout << "Time " << time << ": Process P" << running->getPID()
                  << " running (" << executed << "/" << running->getBurstTime() << ")" << endl;
-            running->decrementTime();  // Using the Process class method
+            running->decrementTime();
             if (running->getRemainingTime() == 0) {
                 running->updateState(TERMINATED);
-                // Store completion time (index by pid-1 as your original did)
                 if (running->getPID() - 1 >= 0 && running->getPID() - 1 < (int)completionTimes.size()) {
                     completionTimes[running->getPID() - 1] = time + 1;
                 }
@@ -175,26 +157,21 @@ static void runFCFS(vector<Process*>& fcfsProcs) {
             cout << "Time " << time << ": No process" << endl;
         }
 
-        // Check if all done
         allDone = (nextProc >= (int)fcfsProcs.size() && running == NULL && readyQueue.empty());
         time++;
     }
-
-    // Print results using same table/averages semantics
     printResults(fcfsProcs, completionTimes);
 }
 
 static void runSJF(vector<Process*>& procs) {
     cout << "\n=== SJF (Non-preemptive) Scheduling ===" << endl;
-
-    int time = 0;
+    int time = 0, doneCount = 0;
     vector<int> completionTimes(procs.size(), 0);
     vector<bool> finished(procs.size(), false);
-    int doneCount = 0;
 
     while (doneCount < (int)procs.size()) {
         int idx = -1;
-        int minBurst = INT_MAX;
+        int minBurst = numeric_limits<int>::max();
 
         for (int i = 0; i < (int)procs.size(); i++) {
             if (!finished[i] && procs[i]->getArrivalTime() <= time) {
@@ -218,32 +195,21 @@ static void runSJF(vector<Process*>& procs) {
                  << " running (" << t + 1 << "/" << p->getBurstTime() << ")" << endl;
             time++;
         }
-
         p->updateState(TERMINATED);
         finished[idx] = true;
         completionTimes[idx] = time;
         doneCount++;
     }
-
     printResults(procs, completionTimes);
 }
 
 static void runRR(std::vector<Process*>& procs, int q) {
-    using std::queue;
-    using std::sort;
-
-    if (q <= 0) {
-        std::cout << "\n[RR] Invalid quantum. Using q=1.\n";
-        q = 1;
-    }
-
-    std::cout << "\n=== Round Robin (q=" << q << ") ===\n";
+    if (q <= 0) { cout << "\n[RR] Invalid quantum. Using q=1.\n"; q = 1; }
+    cout << "\n=== Round Robin (q=" << q << ") ===\n";
 
     const int n = (int)procs.size();
-    std::vector<int> completionTimes(n, 0);
-
-    // Stable intake order by (arrival, pid) for deterministic behavior
-    std::vector<int> order(n);
+    vector<int> completionTimes(n, 0);
+    vector<int> order(n);
     for (int i = 0; i < n; ++i) order[i] = i;
     sort(order.begin(), order.end(), [&](int a, int b) {
         if (procs[a]->getArrivalTime() != procs[b]->getArrivalTime())
@@ -251,10 +217,8 @@ static void runRR(std::vector<Process*>& procs, int q) {
         return procs[a]->getPID() < procs[b]->getPID();
     });
 
-    // Ready queue holds indices into `procs`
     queue<int> ready;
-    int t = 0;        // simulated time
-    int i = 0;        // pointer into `order` for new arrivals
+    int t = 0, i = 0;
 
     auto enqueue_arrivals = [&](int now) {
         while (i < n && procs[order[i]]->getArrivalTime() <= now) {
@@ -264,14 +228,12 @@ static void runRR(std::vector<Process*>& procs, int q) {
         }
     };
 
-    // If the first arrival is after t=0, fast-forward to that time
     if (n > 0 && procs[order[0]]->getArrivalTime() > 0)
         t = procs[order[0]]->getArrivalTime();
     enqueue_arrivals(t);
 
     while (!ready.empty() || i < n) {
         if (ready.empty()) {
-            // jump to next arrival when CPU is idle
             t = std::max(t, procs[order[i]]->getArrivalTime());
             enqueue_arrivals(t);
             continue;
@@ -279,84 +241,269 @@ static void runRR(std::vector<Process*>& procs, int q) {
 
         int idx = ready.front(); ready.pop();
         Process* p = procs[idx];
-
         p->updateState(RUNNING);
 
         int slice = std::min(q, p->getRemainingTime());
         for (int step = 0; step < slice; ++step) {
-            // one time unit of CPU
-            std::cout << "Time " << t << ": Process P" << p->getPID()
+            cout << "Time " << t << ": Process P" << p->getPID()
                       << " running (" << (p->getBurstTime() - (p->getRemainingTime()-1))
                       << "/" << p->getBurstTime() << ")\n";
-            p->decrementTime();     // reduces remaining_time by 1
-            t += 1;                 // advance time
-
-            // admit any processes that arrived at this new time
+            p->decrementTime();
+            t += 1;
             enqueue_arrivals(t);
-
             if (p->getRemainingTime() == 0) break;
         }
 
         if (p->getRemainingTime() == 0) {
             p->updateState(TERMINATED);
-            completionTimes[idx] = t;       // finished at time t
+            completionTimes[idx] = t;
         } else {
             p->updateState(READY);
-            ready.push(idx);                // round-robin: back of the queue
+            ready.push(idx);
         }
     }
-
     printResults(procs, completionTimes);
 }
 
+static void runVirtualMemory() {
+    struct VProc { int pid, pgs; vector<int> pt; };
+    vector<int> mem(100, 0); // 0 = free, otherwise PID
+    vector<VProc> vps;
 
+    cout << "\n=== Virtual Memory Simulation ===\nHow many processes? ";
+    int n; cin >> n;
+    for (int i = 0; i < n; ++i)
+        vps.push_back({ i + 1, rand() % 50 + 1, {} });
+
+    // Display created processes
+    cout << "\n--- Created Processes ---\n";
+    for (auto& v : vps)
+        cout << "P" << v.pid << ": " << v.pgs << " pages\n";
+
+    while (true) {
+        cout << "\n1. Run PID, 2. Run Random, 3. Delete Process, 4. Back to Main Menu: ";
+        int c; cin >> c;
+        if (c == 4) break;
+
+        // ---- New Option: Delete Process Manually ----
+        if (c == 3) {
+            int id; 
+            cout << "Enter PID to delete: ";
+            cin >> id;
+
+            VProc* d = nullptr;
+            for (auto& vp : vps)
+                if (vp.pid == id) d = &vp;
+
+            if (!d) {
+                cout << "PID not found.\n";
+            } else if (d->pt.empty()) {
+                cout << "P" << id << " is not currently in memory.\n";
+            } else {
+                cout << "Freeing P" << id << endl;
+                for (int f : d->pt) mem[f] = 0;
+                d->pt.clear();
+
+                // Show updated process list
+                cout << "\n--- Current Processes ---\n";
+                for (auto& v : vps) {
+                    cout << "P" << v.pid << ": " << v.pgs << " pages ";
+                    if (v.pt.empty()) {
+                        cout << "[NOT IN MEMORY]\n";
+                    } else {
+                        cout << "[IN MEMORY] Frames: ";
+                        for (size_t j = 0; j < v.pt.size(); ++j) {
+                            cout << v.pt[j];
+                            if (j + 1 < v.pt.size()) cout << ", ";
+                        }
+                        cout << endl;
+                    }
+                }
+            }
+            continue; // go back to menu
+        }
+
+        // ---- Run PID / Run Random ----
+        VProc* p = nullptr;
+        if (c == 2 && !vps.empty()) {
+            p = &vps[rand() % vps.size()];
+        } else if (c == 1) {
+            int id; cout << "Enter PID: "; cin >> id;
+            for (auto& vp : vps)
+                if (vp.pid == id) p = &vp;
+        } else {
+            cout << "Invalid option.\n";
+            continue;
+        }
+
+        if (!p) {
+            cout << "Invalid PID.\n";
+            continue;
+        }
+        if (!p->pt.empty()) {
+            cout << "P" << p->pid << " already in memory.\n";
+            continue;
+        }
+
+        // Allocation with retry loop
+        while (true) {
+            int free_f = 0;
+            for (int m : mem) if (m == 0) free_f++;
+
+            if (free_f >= p->pgs) {
+                int start = -1;
+                // Continuous Check
+                for (int i = 0; i <= 100 - p->pgs; ++i) {
+                    bool fit = true;
+                    for (int k = 0; k < p->pgs; k++)
+                        if (mem[i + k] != 0) { fit = false; break; }
+                    if (fit) { start = i; break; }
+                }
+
+                cout << "Allocating P" << p->pid << " (" << p->pgs << " pgs)... ";
+                if (start != -1) {
+                    cout << "Continuous at " << start << endl;
+                    for (int k = 0; k < p->pgs; k++) {
+                        mem[start + k] = p->pid;
+                        p->pt.push_back(start + k);   // store frame index
+                    }
+                } else {
+                    cout << "Scattered." << endl;
+                    for (int i = 0; i < 100 && (int)p->pt.size() < p->pgs; ++i) {
+                        if (mem[i] == 0) {
+                            mem[i] = p->pid;
+                            p->pt.push_back(i);       // store frame index
+                        }
+                    }
+                }
+
+                // Show page table for just-allocated process
+                cout << "\nPage table for P" << p->pid << ":\n";
+                for (size_t i = 0; i < p->pt.size(); ++i) {
+                    cout << "  Page " << i << " -> Frame " << p->pt[i] << endl;
+                }
+
+                // Display process list with their frames
+                cout << "\n--- Current Processes ---\n";
+                for (auto& v : vps) {
+                    cout << "P" << v.pid << ": " << v.pgs << " pages ";
+                    if (v.pt.empty()) {
+                        cout << "[NOT IN MEMORY]\n";
+                    } else {
+                        cout << "[IN MEMORY] Frames: ";
+                        for (size_t j = 0; j < v.pt.size(); ++j) {
+                            cout << v.pt[j];
+                            if (j + 1 < v.pt.size()) cout << ", ";
+                        }
+                        cout << endl;
+                    }
+                }
+
+                break; // Success, exit retry loop
+            }
+
+            cout << "Not enough memory (" << free_f << " free, " << p->pgs << " needed).\n";
+            cout << "Delete Process (1. PID, 2. Random): ";
+            int dc; cin >> dc;
+            VProc* d = nullptr;
+
+            if (dc == 2) {
+                vector<VProc*> l;
+                for (auto& v : vps)
+                    if (!v.pt.empty()) l.push_back(&v);
+                if (!l.empty()) d = l[rand() % l.size()];
+            } else if (dc == 1) {
+                int k; cout << "Kill PID: "; cin >> k;
+                for (auto& v : vps)
+                    if (v.pid == k) d = &v;
+            } else {
+                cout << "Invalid choice.\n";
+            }
+
+            if (d && !d->pt.empty()) {
+                cout << "Freeing P" << d->pid << endl;
+                for (int f : d->pt) mem[f] = 0;
+                d->pt.clear(); // retry allocation after freeing
+            } else if (!d || d->pt.empty()) {
+                cout << "Invalid target.\n";
+                break;
+            }
+        }
+    }
+}
 
 int main() {
-    // 1. Simulate the boot up process
+    srand(time(0));
     cout << "\nOS is booting up..." << endl;
     cout << "\nWelcome to the OS command line interface." << endl;
     cout << "------------------------------------------" << endl << endl;
 
-    // 2. Call the authentication function
-    bool isAuthenticated = authenticateUser();
-
-    // 3. Display success or failure
-    if (isAuthenticated) {
+    if (authenticateUser()) {
         cout << "\nAuthentication successful. Welcome, admin!" << endl;
 
-        // --- IMPORTANT: declare processes INSIDE main, before the menu ---
-        vector<Process*> procs = readInputOrDemo();
-
-        // --- Menu (validated) ---
-        int choice = 0;
         while (true) {
-            cout << "\nChoose scheduling policy: "
-                 << "1 = First Come First Serve, "
-                 << "2 = Shortest Job First (Non-preemptive), "
-                 << "3 = Round Robin: ";
-            if (cin >> choice && (choice == 1 || choice == 2 || choice == 3)) break;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid option. Please enter 1, 2, or 3.\n";
-        }
-
-        if (choice == 1) {
-            runFCFS(procs);
-        } else if (choice == 2) {
-            runSJF(procs);
-        } else { // choice == 3
-            cout << "Enter time quantum q: ";
-            int q;
-            while (!(cin >> q)) {
+            cout << "\n=== Main Menu ===\n";
+            cout << "1. CPU Scheduling\n";
+            cout << "2. Virtual Memory Simulation\n";
+            cout << "3. Exit System\n";
+            cout << "Select option: ";
+            
+            int mainChoice;
+            if (!(cin >> mainChoice)) {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Invalid input. Enter integer quantum: ";
+                cout << "Invalid input.\n";
+                continue;
             }
-            runRR(procs, q);
-        }
 
-        // Cleanup
-        for (auto* p : procs) delete p;
+            if (mainChoice == 3) break;
+            
+            if (mainChoice == 2) {
+                runVirtualMemory();
+            } else if (mainChoice == 1) {
+                // CPU Scheduling Sub-menu
+                while (true) {
+                    cout << "\n   --- CPU Scheduling Methods ---\n";
+                    cout << "   1. First Come First Serve (FCFS)\n";
+                    cout << "   2. Shortest Job First (SJF)\n";
+                    cout << "   3. Round Robin (RR)\n";
+                    cout << "   4. Back to Main Menu\n";
+                    cout << "   Select method: ";
+                    
+                    int cpuChoice;
+                    cin >> cpuChoice;
+                    
+                    if (cpuChoice == 4) break;
+                    
+                    if (cpuChoice >= 1 && cpuChoice <= 3) {
+                        // Load data specifically for the chosen algorithm run
+                        vector<Process*> procs = readInputOrDemo();
+                        
+                        if (cpuChoice == 1) {
+                            runFCFS(procs);
+                        } else if (cpuChoice == 2) {
+                            runSJF(procs);
+                        } else { // cpuChoice == 3
+                            cout << "Enter time quantum q: ";
+                            int q;
+                            while (!(cin >> q)) {
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                                cout << "Invalid. Enter integer: ";
+                            }
+                            runRR(procs, q);
+                        }
+                        
+                        // Cleanup processes after run
+                        for (auto* p : procs) delete p;
+                    } else {
+                        cout << "Invalid CPU option.\n";
+                    }
+                }
+            } else {
+                cout << "Invalid option.\n";
+            }
+        }
 
     } else {
         cout << "\nAuthentication failed. Invalid username or password." << endl;
